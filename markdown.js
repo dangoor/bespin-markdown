@@ -52,6 +52,19 @@
             "name": "markdown preview",
             "description": "preview the HTML form of this markdown text",
             "pointer": "#preview"
+        },
+        {
+            "ep": "command",
+            "name": "markdown convert",
+            "description": "convert the selected text to HTML",
+            "pointer": "#convert"
+        }
+    ],
+    "maintainers": [
+        {
+            "name": "Kevin Dangoor",
+            "email": "kid@blazingthings.com",
+            "web": "http://blueskyonmars.com/"
         }
     ],
     "licenses": [
@@ -80,5 +93,17 @@ exports.preview = function(env, args, request) {
     }
     var popup = window.open("", "_blank", "location=no,menubar=no");
     popup.document.body.innerHTML = markdown.toHTML(text);
+    request.done();
+};
+
+exports.convert = function(env, args, request) {
+    var allOrSelection = 'selectedText';
+    var text = env.editor.selectedText;
+    if (!text) {
+        allOrSelection = 'value';
+        text = env.editor.value;
+    }
+    var html = markdown.toHTML(text);
+    env.editor[allOrSelection] = html;
     request.done();
 };
