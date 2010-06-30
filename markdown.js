@@ -37,7 +37,6 @@
 
 "define metadata";
 ({
-    "version": "1.0.0",
     "dependencies": {
         "markdown_js": "0.1.2"
     },
@@ -51,6 +50,7 @@
             "ep": "command",
             "name": "markdown preview",
             "description": "preview the HTML form of this markdown text",
+            "key": "ctrl_shift_p",
             "pointer": "#preview"
         },
         {
@@ -60,6 +60,7 @@
             "pointer": "#convert"
         }
     ],
+    "version": "1.0.0",
     "maintainers": [
         {
             "name": "Kevin Dangoor",
@@ -84,9 +85,10 @@
 });
 "end";
 
+var env = require('environment').env;
 var markdown = require("markdown_js");
 
-exports.preview = function(env, args, request) {
+exports.preview = function(args, request) {
     var text = env.editor.selectedText;
     if (!text) {
         text = env.editor.value;
@@ -96,7 +98,7 @@ exports.preview = function(env, args, request) {
     request.done();
 };
 
-exports.convert = function(env, args, request) {
+exports.convert = function(args, request) {
     var allOrSelection = 'selectedText';
     var text = env.editor.selectedText;
     if (!text) {
